@@ -82,7 +82,7 @@
   }
 
   html {
-    font-size: clamp(14px, 1.5vw + 10px, 32px);
+    font-size: clamp(14px, 0.8vw + 8px, 48px);
   }
 
   body {
