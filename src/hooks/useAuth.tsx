@@ -31,37 +31,51 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Explicitly bypassing has_role as requested. 
     // Assuming any authenticated user in this admin app is treated as an admin.
     setIsAdmin(true);
-    setLoading(false);
+    return true;
   };
 
   useEffect(() => {
-    setLoading(true);
+    let mounted = true;
+
+    const initializeAuth = async () => {
+      setLoading(true);
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (mounted) {
+        if (session?.user) {
+          await checkAdmin(session.user.id);
+          setSession(session);
+          setUser(session.user);
+        }
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          setLoading(true);
-          await checkAdmin(session.user.id);
-        } else {
-          setIsAdmin(false);
-          setLoading(false);
+        if (mounted) {
+          if (session?.user) {
+            setLoading(true);
+            await checkAdmin(session.user.id);
+            setSession(session);
+            setUser(session.user);
+            setLoading(false);
+          } else {
+            setSession(null);
+            setUser(null);
+            setIsAdmin(false);
+            setLoading(false);
+          }
         }
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        setLoading(true);
-        checkAdmin(session.user.id);
-      } else {
-        setLoading(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {

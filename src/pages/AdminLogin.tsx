@@ -10,28 +10,36 @@ import logo from "@/assets/logo.png";
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { signIn, user, isAdmin } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { signIn, user, isAdmin, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && isAdmin) {
+    if (!loading && user && isAdmin) {
       navigate("/events");
     }
-  }, [user, isAdmin, navigate]);
+  }, [user, isAdmin, loading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) return;
-    setLoading(true);
+    setIsSubmitting(true);
     const { error } = await signIn(email.trim(), password.trim());
-    setLoading(false);
+    setIsSubmitting(false);
     if (error) {
       toast.error("Identifiants incorrects");
     } else {
       toast.success("Connexion réussie, vérification des droits...");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted/30">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4">
@@ -58,8 +66,8 @@ const AdminLogin = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Connexion..." : "Se connecter"}
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Connexion..." : "Se connecter"}
             </Button>
           </form>
         </CardContent>
