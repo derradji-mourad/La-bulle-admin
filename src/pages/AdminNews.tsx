@@ -132,18 +132,18 @@ const AdminNews = () => {
             </Button>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
                 <label className="text-sm font-medium mb-1 block">Titre *</label>
                 <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required maxLength={300} />
               </div>
 
-              <div>
+              <div className="md:col-span-2">
                 <label className="text-sm font-medium mb-1 block">Extrait</label>
                 <Input value={form.excerpt} onChange={(e) => setForm({ ...form, excerpt: e.target.value })} placeholder="Résumé court..." maxLength={500} />
               </div>
 
-              <div>
+              <div className="md:col-span-2">
                 <label className="text-sm font-medium mb-1 block">Contenu *</label>
                 <Textarea value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} required rows={8} maxLength={50000} />
               </div>
@@ -165,7 +165,7 @@ const AdminNews = () => {
               <div>
                 <label className="text-sm font-medium mb-1 block">Statut</label>
                 <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v as "draft" | "published" | "cancelled" })}>
-                  <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="draft">Brouillon</SelectItem>
                     <SelectItem value="published">Publié</SelectItem>
@@ -173,7 +173,7 @@ const AdminNews = () => {
                 </Select>
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="md:col-span-2 flex gap-3 pt-4">
                 <Button type="submit" disabled={loading}>
                   {loading ? "Enregistrement..." : editingId ? "Mettre à jour" : "Publier l'article"}
                 </Button>

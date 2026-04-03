@@ -204,9 +204,9 @@ const AdminEvents = () => {
             </Button>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {/* Name */}
-              <div className="md:col-span-2">
+              <div className="md:col-span-2 lg:col-span-3 xl:col-span-4">
                 <label className="text-sm font-medium mb-1 block">Nom de l'événement *</label>
                 <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required maxLength={200} />
               </div>
@@ -258,25 +258,25 @@ const AdminEvents = () => {
               </div>
 
               {/* Address */}
-              <div className="md:col-span-2">
+              <div className="md:col-span-2 lg:col-span-3 xl:col-span-4">
                 <label className="text-sm font-medium mb-1 block">Adresse</label>
                 <Input value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} maxLength={300} />
               </div>
 
               {/* Description */}
-              <div className="md:col-span-2">
+              <div className="md:col-span-2 lg:col-span-3 xl:col-span-4">
                 <label className="text-sm font-medium mb-1 block">Description *</label>
                 <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required rows={4} maxLength={5000} />
               </div>
 
               {/* Programme */}
-              <div className="md:col-span-2">
+              <div className="md:col-span-2 lg:col-span-3 xl:col-span-4">
                 <label className="text-sm font-medium mb-1 block">Programme</label>
                 <Textarea value={form.programme} onChange={(e) => setForm({ ...form, programme: e.target.value })} rows={3} maxLength={5000} />
               </div>
 
               {/* What you'll learn */}
-              <div className="md:col-span-2">
+              <div className="md:col-span-2 lg:col-span-2 xl:col-span-2">
                 <label className="text-sm font-medium mb-1 block">Ce que vous apprendrez</label>
                 <div className="flex gap-2 mb-2">
                   <Input value={learningInput} onChange={(e) => setLearningInput(e.target.value)} placeholder="Ajoutez un point..." maxLength={200} />
@@ -297,7 +297,7 @@ const AdminEvents = () => {
               </div>
 
               {/* Cover image */}
-              <div className="md:col-span-2">
+              <div className="md:col-span-2 lg:col-span-2 xl:col-span-2">
                 <label className="text-sm font-medium mb-1 block">Image de couverture</label>
                 <div className="flex items-center gap-4">
                   <label className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg cursor-pointer hover:opacity-90 text-sm">
@@ -395,7 +395,7 @@ const AdminEvents = () => {
               </div>
 
               {/* Recurring */}
-              <div className="md:col-span-2 flex items-center gap-3">
+              <div className="md:col-span-2 lg:col-span-3 xl:col-span-4 flex items-center gap-3">
                 <input type="checkbox" checked={form.is_recurring} onChange={(e) => setForm({ ...form, is_recurring: e.target.checked })} className="h-4 w-4" />
                 <label className="text-sm font-medium">Événement récurrent</label>
                 {form.is_recurring && (
@@ -404,7 +404,7 @@ const AdminEvents = () => {
               </div>
 
               {/* Submit */}
-              <div className="md:col-span-2 flex gap-3 pt-4">
+              <div className="md:col-span-2 lg:col-span-3 xl:col-span-4 flex gap-3 pt-4">
                 <Button type="submit" disabled={loading}>
                   {loading ? "Enregistrement..." : editingId ? "Mettre à jour" : "Créer l'événement"}
                 </Button>
